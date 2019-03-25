@@ -1,8 +1,23 @@
+/**
+ * @fileOverview Profile container
+ * @author thangnt@deha-soft.com (Thang Nguyen)
+ */
 import React, {Component} from "react";
 import "../App.css";
+import {profileActions} from "../actions/profileActions";
+import {connect} from "react-redux";
 
-export default class ProfileContainer extends Component{
+class ProfileContainer extends Component{
+    /**
+     * Render view profile
+     * @returns {*}
+     */
     render() {
+        /**
+         * Profile data
+         */
+        const profile = this.props.profileReducer.profile;
+
         return (
             <div className="main-panel">
                 <div className="content">
@@ -27,13 +42,14 @@ export default class ProfileContainer extends Component{
                                                     <div className="form-group">
                                                         <label>Username</label>
                                                         <input type="text" className="form-control" placeholder="Username"
-                                                               value="michael23"/>
+                                                               value={profile.userName}/>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label htmlFor="exampleInputEmail1">Email address</label>
-                                                        <input type="email" className="form-control" placeholder="Email"/>
+                                                        <input type="email" className="form-control" placeholder="Email"
+                                                        value={profile.email}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -43,14 +59,14 @@ export default class ProfileContainer extends Component{
                                                     <div className="form-group">
                                                         <label>First Name</label>
                                                         <input type="text" className="form-control" placeholder="Company"
-                                                               value="Mike"/>
+                                                               value={profile.firstName}/>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label>Last Name</label>
                                                         <input type="text" className="form-control" placeholder="Last Name"
-                                                               value="Andrew"/>
+                                                               value={profile.lastName}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -61,7 +77,7 @@ export default class ProfileContainer extends Component{
                                                         <label>Address</label>
                                                         <input type="text" className="form-control"
                                                                placeholder="Home Address"
-                                                               value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"/>
+                                                               value={profile.address}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -71,14 +87,14 @@ export default class ProfileContainer extends Component{
                                                     <div className="form-group">
                                                         <label>City</label>
                                                         <input type="text" className="form-control" placeholder="City"
-                                                               value="Mike"/>
+                                                               value={profile.city}/>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label>Country</label>
                                                         <input type="text" className="form-control" placeholder="Country"
-                                                               value="Andrew"/>
+                                                               value={profile.country}/>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
@@ -112,17 +128,17 @@ export default class ProfileContainer extends Component{
                                 <div className="card card-user">
                                     <div className="image">
                                         <img
-                                            src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
+                                            src={profile.coverImage}
                                             alt="..."/>
                                     </div>
                                     <div className="content">
                                         <div className="author">
                                             <a href="#">
-                                                <img className="avatar border-gray" src="assets/img/faces/face-3.jpg"
+                                                <img className="avatar border-gray" src={profile.avatarImage}
                                                      alt="..."/>
 
-                                                <h4 className="title">Mike Andrew<br/>
-                                                    <small>michael24</small>
+                                                <h4 className="title">{profile.firstName + " " + profile.lastName}<br/>
+                                                    <small>{profile.userName}</small>
                                                 </h4>
                                             </a>
                                         </div>
@@ -151,4 +167,32 @@ export default class ProfileContainer extends Component{
 
         )
     }
+
+    /**
+     *
+     */
+    componentDidMount() {
+        this._getProfile();
+    }
+
+    /**
+     * Call action get data profile
+     *
+     * @private
+     */
+    _getProfile = () => {
+        this.props.dispatch(profileActions());
+    }
 }
+
+/**
+ * Map props to state
+ *
+ * @param props
+ * @returns {{profileReducer: reducer}}
+ */
+const mapPropsToState = props => {
+    return { profileReducer: props.profileReducer };
+};
+
+export default connect(mapPropsToState)(ProfileContainer)

@@ -1,7 +1,16 @@
+/**
+ * @fileOverview Dashboard Container
+ * @author thangnt@deha-soft.com (Thang Nguyen)
+ */
 import React, {Component} from "react";
 import "../App.css";
 
 export default class DashboardContainer extends Component{
+    /**
+     * Render dashboard view
+     *
+     * @returns {*}
+     */
     render() {
         return (
             <div className="main-panel">
